@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,6 +25,8 @@ public class UserController {
 
 	@PostMapping("user")
 	public User login(@RequestParam("user") String username, @RequestParam("password") String pwd) {
+		
+		//authenticate user by checking their username and password
 		
 		String token = getJWTToken(username);
 		User user = new User();
@@ -53,4 +56,12 @@ public class UserController {
 
 		return "Bearer " + token;
 	}
+	
+	@GetMapping("TEST")
+	public String test() {
+		
+		return "Test Successful!";
+		
+	}
+	
 }
