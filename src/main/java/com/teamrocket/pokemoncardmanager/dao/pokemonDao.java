@@ -13,5 +13,5 @@ public interface pokemonDao {
     void updatePokemon(Pokemon pokemon);
     void removePokemon(int id);
     
-    List<Pokemon> getCollection(User user);
+    List<Pokemon> getCollection(int userId);
 }

@@ -72,17 +72,14 @@ public class pokemonDaoImpl implements pokemonDao{
 	}
 
 	@Override
-	public List<Pokemon> getCollection(User user) {
+	public List<Pokemon> getCollection(int userId) {
 		// TODO Auto-generated method stub
-		
-		
-		return null;
+		final String SELECT_COLLECTION = "SELECT p.* FROM pokemon p"
+		+ "JOIN collection c ON p.id = c.pokemon_id WHERE c.user_id=?";
+		return jdbc.query(SELECT_COLLECTION, new PokemonMapper(), userId);
 	}
 	
-	public List<Integer> getPokemonIdsFromCollection(){
-		final String SELECT_COLLECTION = "SELECT * FROM collection c " + "WHERE c.user_id=?";
-		List<Integer> pokemonIds = jdbc.queryForList(SELECT_COLLECTION);
-	}
+
 
 	public static final class PokemonMapper implements RowMapper<Pokemon>{
 
