@@ -68,7 +68,10 @@ public class pokemonDaoImpl implements pokemonDao{
 	@Transactional
 	public void removePokemon(int id) {
 		// TODO Auto-generated method stub
-		
+		final String DELETE_COLLECTION = "DELETE FROM collection WHERE pokemon_id=?";
+		jdbc.update(DELETE_COLLECTION,id);
+		final String DELETE_POKEMON = "DELETE FROM pokemon WHERE id=?";
+		jdbc.update(DELETE_POKEMON, id);
 	}
 
 	@Override
