@@ -2,15 +2,18 @@ package com.teamrocket.pokemoncardmanager.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.teamrocket.pokemoncardmanager.entities.User;
 
+@Repository
 public class userDaoImpl implements userDao {
 	@Autowired
 	JdbcTemplate jdbc;
@@ -53,7 +56,12 @@ public class userDaoImpl implements userDao {
 		final String DELETE_USER = "DELETE FROM user WHERE id = ?";
 		jdbc.update(DELETE_USER, id);
 	}
-
+	@Override
+	public List<User> getAllUsers() {
+       final String SELECT_ALL_USERS = "SELECT * FROM user";
+       List<User> users = jdbc.query(SELECT_ALL_USERS, new UserMapper());
+       return users;
+	}
 	public static final class UserMapper implements RowMapper<User> {
 		@Override
 		public User mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -65,4 +73,6 @@ public class userDaoImpl implements userDao {
 			return user;
 		}
 	}
+
+
 }

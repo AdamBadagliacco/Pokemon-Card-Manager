@@ -8,18 +8,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.teamrocket.pokemoncardmanager.entities.Pokemon;
-import com.teamrocket.pokemoncardmanager.entities.User;
 
+@Repository
 public class pokemonDaoImpl implements pokemonDao{
 
 	@Autowired
 	JdbcTemplate jdbc;
 	
 	@Override
-	public Pokemon getPokemonById(int id) {
+	public Pokemon getPokemonById(String id) {
 		// TODO Auto-generated method stub
 		try {
 			final String SELECT_POKEMON_BY_ID="SELECT * FROM POKEMON WHERE id = ?";
@@ -66,7 +67,7 @@ public class pokemonDaoImpl implements pokemonDao{
 
 	@Override
 	@Transactional
-	public void removePokemon(int id) {
+	public void removePokemon(String id) {
 		// TODO Auto-generated method stub
 		final String DELETE_COLLECTION = "DELETE FROM collection WHERE pokemon_id=?";
 		jdbc.update(DELETE_COLLECTION,id);

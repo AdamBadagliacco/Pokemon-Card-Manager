@@ -7,11 +7,11 @@ import com.teamrocket.pokemoncardmanager.entities.User;
 
 
 public interface pokemonDao {
-    Pokemon getPokemonById(int id);
+    Pokemon getPokemonById(String id);
     List<Pokemon> getAllPokemons();
     Pokemon addPokemon(Pokemon pokemon);
     void updatePokemon(Pokemon pokemon);
-    void removePokemon(int id);
+    void removePokemon(String id);
     
     List<Pokemon> getCollection(int userId);
 }
