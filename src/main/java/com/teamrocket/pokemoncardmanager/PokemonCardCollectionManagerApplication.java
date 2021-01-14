@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
 
 import com.teamrocket.pokemoncardmanager.security.JWTAuthorizationFilter;
 
@@ -27,6 +28,12 @@ public class PokemonCardCollectionManagerApplication {
 
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
+			
+			
+		//added to fix cors
+			http.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues());
+			
+		
 			http.csrf().disable()
 				.addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
 				.authorizeRequests()
@@ -38,5 +45,7 @@ public class PokemonCardCollectionManagerApplication {
 				.anyRequest().authenticated();
 		}
 	}
+	
+	
 
 }
