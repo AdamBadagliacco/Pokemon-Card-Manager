@@ -30,7 +30,8 @@ public class PokemonCardCollectionManagerApplication {
 			http.csrf().disable()
 				.addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
 				.authorizeRequests()
-				.antMatchers(HttpMethod.POST, "/user").permitAll()
+				.antMatchers(HttpMethod.POST, "/login").permitAll()
+				//.antMatchers(HttpMethod.GET, "/user").permitAll()
 				//.antMatchers(HttpMethod.GET, "/TEST").permitAll()
 				//Add any additional pages that should be white listed to not need credentials
 				//
