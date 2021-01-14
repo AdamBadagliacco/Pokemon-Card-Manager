@@ -1,5 +1,9 @@
 package com.teamrocket.pokemoncardmanager;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.List;
 
 import org.junit.jupiter.api.AfterAll;
@@ -44,7 +48,53 @@ public class UserDaoTest {
     	
     }
     @Test
+    public void testAddAndGetUser() {
+        User user = new User();
+        user.setName("Test User First");
+        user.setPassword("Test User Last");
+        user = userDao.addUser(user);
+        
+        User fromDao = userDao.getUserById(user.getId());
+        assertEquals(user, fromDao);
+    }
+    @Test
     public void testGetAllUsers() {
+    	User user = new User();
+    	user.setName("John");
+    	user.setPassword("pass");
+    	user = userDao.addUser(user);
+    	User user2 = new User();
+    	user2.setName("Jimmy");
+    	user2.setPassword("pass2");
+    	user2 = userDao.addUser(user2);
+    	
+    	List<User> users = userDao.getAllUsers();
+    	
+        assertEquals(2, users.size());
+        assertTrue(users.contains(user));
+        assertTrue(users.contains(user2));
+    }
+    @Test
+    public void testUpdateUser() {
+        User user = new User();
+        user.setName("Test User First");
+        user.setPassword("Test User Last");
+        user = userDao.addUser(user);
+        
+        User fromDao = userDao.getUserById(user.getId());
+        assertEquals(user, fromDao);
+        
+        user.setName("New Test User First");
+        userDao.updateUser(user);
+        
+        assertNotEquals(user, fromDao);
+        
+        fromDao = userDao.getUserById(user.getId());
+        
+        assertEquals(user, fromDao);
+    }
+    @Test
+    public void testRemoveUser() {
     	
     }
 }
