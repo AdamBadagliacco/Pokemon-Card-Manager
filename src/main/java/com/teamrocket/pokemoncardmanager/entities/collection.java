@@ -15,15 +15,12 @@ public class collection {
 	@Id
 	public String id;
 	
-	
-	//Repeated column in mapping for entity: com.teamrocket.pokemoncardmanager.entities.collection column: username (should be mapped with insert="false" update="false")
-	
 	@ManyToOne(optional=false)
-	@JoinColumn(name = "username", nullable = false, insertable=false, updatable=false)
+	@JoinColumn(name = "userId", nullable = false, insertable=false, updatable=false)
 	private User user;
 	
 	@ManyToOne(optional=false)
-	@JoinColumn(name = "id", nullable = false, insertable=false, updatable=false)
+	@JoinColumn(name = "pokemonId", nullable = false, insertable=false, updatable=false)
 	private Pokemon pokemon;
 
 	public String getId() {

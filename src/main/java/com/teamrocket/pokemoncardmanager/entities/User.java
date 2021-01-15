@@ -9,8 +9,12 @@ import javax.persistence.Id;
 @Entity
 public class User {
 	
+	
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Id
+	private int id;
+	
+	@Column
 	private String username;
 	
 	@Column
@@ -37,6 +41,10 @@ public class User {
 	}
 	public void setToken(String token) {
 		this.token = token;
+	}
+	@Override
+	public String toString() {
+		return "User [username=" + username + ", password=" + password + ", token=" + token + "]";
 	}
 	
 	
