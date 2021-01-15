@@ -1,9 +1,25 @@
 package com.teamrocket.pokemoncardmanager.entities;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class Pokemon {
+	
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Id
 	public String id;
+	
+	@Column
 	public String name;
+	
+	@Column
 	public String pokedexNumber;
+	
+	@Column
 	public String imgUrl;
 	
 	

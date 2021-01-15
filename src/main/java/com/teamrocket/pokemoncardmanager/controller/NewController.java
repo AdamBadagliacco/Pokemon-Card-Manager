@@ -1,5 +1,5 @@
 package com.teamrocket.pokemoncardmanager.controller;
-/*
+
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -12,17 +12,26 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.teamrocket.pokemoncardmanager.dao.userDao;
+
 import com.teamrocket.pokemoncardmanager.entities.User;
+import com.teamrocket.pokemoncardmanager.newdao.PokemonRepository;
+import com.teamrocket.pokemoncardmanager.newdao.UserRepository;
+import com.teamrocket.pokemoncardmanager.newdao.collectionRepository;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 @RestController
-public class Controller {
+public class NewController {
 	
 	@Autowired
-	userDao myUserDao;
+	collectionRepository collections;
+	
+	@Autowired
+	UserRepository users;
+	
+	@Autowired
+	PokemonRepository pokemons;
 	
 
 	@PostMapping("login")
@@ -30,17 +39,15 @@ public class Controller {
 		
 		System.out.println("User endpoint hit");
 		
+		
 		//Check if User exists (if they do, check if the password is right. If not, return exception the User doesn't have an account)
-		List<User> allUsers = myUserDao.getAllUsers();
+		List<User> allUsers = users.findAll();
 			for(int i = 0; i < allUsers.size(); i++) {
 				if(allUsers.get(i).getName().equals(username)) { //User Found!
 					
 					if(allUsers.get(i).getPassword().equals(pwd)) { //Successful Login
 						
 						String token = getJWTToken(username);
-						User updatedTokenUser = allUsers.get(i);
-						updatedTokenUser.setToken(token);
-						myUserDao.updateUser(updatedTokenUser);
 						return token;
 						
 					}
@@ -55,6 +62,30 @@ public class Controller {
 		return "ERROR: Username Not Found";
 		
 	}
+	
+	private String getJWTToken(String username) {
+		String secretKey = "mySecretKey";
+		List<GrantedAuthority> grantedAuthorities = AuthorityUtils
+				.commaSeparatedStringToAuthorityList("ROLE_USER");
+		
+		String token = Jwts
+				.builder()
+				.setId("softtekJWT")
+				.setSubject(username)
+				.claim("authorities",
+						grantedAuthorities.stream()
+								.map(GrantedAuthority::getAuthority)
+								.collect(Collectors.toList()))
+				.setIssuedAt(new Date(System.currentTimeMillis()))
+				.setExpiration(new Date(System.currentTimeMillis() + 600000))
+				.signWith(SignatureAlgorithm.HS512,
+						secretKey.getBytes()).compact();
+
+		return "Bearer " + token;
+	}
+	
+	
+	/*
 	
 	@PostMapping("signUp")
 	public String signUp(@RequestParam("user") String username, @RequestParam("password") String pwd) {
@@ -134,26 +165,7 @@ public class Controller {
 	
 	
 
-	private String getJWTToken(String username) {
-		String secretKey = "mySecretKey";
-		List<GrantedAuthority> grantedAuthorities = AuthorityUtils
-				.commaSeparatedStringToAuthorityList("ROLE_USER");
-		
-		String token = Jwts
-				.builder()
-				.setId("softtekJWT")
-				.setSubject(username)
-				.claim("authorities",
-						grantedAuthorities.stream()
-								.map(GrantedAuthority::getAuthority)
-								.collect(Collectors.toList()))
-				.setIssuedAt(new Date(System.currentTimeMillis()))
-				.setExpiration(new Date(System.currentTimeMillis() + 600000))
-				.signWith(SignatureAlgorithm.HS512,
-						secretKey.getBytes()).compact();
-
-		return "Bearer " + token;
-	}
+	
 	
 	@GetMapping("TEST")
 	public String test() {
@@ -180,5 +192,6 @@ public class Controller {
 		
 	}
 	
+	*/
+	
 }
-*/
