@@ -18,10 +18,9 @@ public class PokemonCardCollectionManagerApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(PokemonCardCollectionManagerApplication.class, args);
 	}
-	
-	
-	//Below is where we determine which pages need authorization to access
-	
+
+	// Below is where we determine which pages need authorization to access
+
 	@EnableWebSecurity
 	@Configuration
 	class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -29,23 +28,15 @@ public class PokemonCardCollectionManagerApplication {
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
 			
-			
-		//added to fix cors
-			http.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues());
-			
-		
+			http.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues());//added to fix CORS error
+
 			http.csrf().disable()
-				.addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
-				.authorizeRequests()
-				.antMatchers(HttpMethod.POST, "/login").permitAll()
-				//.antMatchers(HttpMethod.GET, "/user").permitAll()
-				//.antMatchers(HttpMethod.GET, "/TEST").permitAll()
-				//Add any additional pages that should be white listed to not need credentials
-				//
-				.anyRequest().authenticated();
+					.addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
+					.authorizeRequests().antMatchers(HttpMethod.POST, "/login").permitAll()
+					.antMatchers(HttpMethod.POST, "/signUp").permitAll()
+					// Add any additional pages that should be white listed to not need credentials should be added here
+					.anyRequest().authenticated();
 		}
 	}
-	
-	
 
 }
